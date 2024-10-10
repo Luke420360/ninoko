@@ -1,10 +1,10 @@
 import http from 'http';
 import express from 'express';
-import { loggingHandler } from './middleware/loggingHandler.js';
-import { corsHandler } from './middleware/corsHandler.js';
+import { loggingHandler } from './middleware/loggingHandler';
+import { corsHandler } from './middleware/corsHandler';
 import { Request, Response, NextFunction } from 'express';
-import { routeNotFound } from './middleware/routeNotFound.js';
-import { SERVER, SERVER_HOSTNAME } from './config/config.js';
+import { routeNotFound } from './middleware/routeNotFound';
+import { SERVER, SERVER_HOSTNAME } from './config/config';
 
 export const application = express();
 export let httpServer: ReturnType<typeof http.createServer>;

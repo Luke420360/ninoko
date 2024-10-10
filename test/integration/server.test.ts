@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { application, Shutdown } from '../../src/server.js';
+import { application, Shutdown } from '../../src/server';
 
 describe('Our Application', () => {
     afterAll((done) => {
