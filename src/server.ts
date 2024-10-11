@@ -3,7 +3,6 @@ import http from 'http';
 import express from 'express';
 import { loggingHandler } from './middleware/loggingHandler';
 import { corsHandler } from './middleware/corsHandler';
-import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { routeNotFound } from './middleware/routeNotFound';
 import { mongo, SERVER, SERVER_HOSTNAME } from './config/config';
@@ -12,6 +11,12 @@ import { defineRoutes } from './modules/routes';
 import MainController from './controllers/main';
 import { declareHandler } from './middleware/declareHandler';
 import UsersController from './controllers/users';
+import { initializeDefaultData } from './db/initializeDefaultData';
+import RolesController from './controllers/roles';
+import EmployeeController from './controllers/employees';
+import AddressesController from './controllers/addresses';
+import AttendanceController from './controllers/attendance';
+import DepartmentsController from './controllers/departments';
 
 export const application = express();
 export let httpServer: ReturnType<typeof http.createServer>;
@@ -31,6 +36,7 @@ export const Main = async () => {
         logging.info('--------------------------');
         logging.info('CONNECTED TO MONGO', connection.version);
         logging.info('--------------------------');
+        await initializeDefaultData();
     } catch (error) {
         logging.info('--------------------------');
         logging.info('UNABLE TO CONNECT!');
@@ -48,7 +54,10 @@ export const Main = async () => {
     logging.info('--------------------------');
     logging.info('DEFINE CONTROLLER ROUTING...');
     logging.info('--------------------------');
-    defineRoutes([MainController, UsersController], application);
+    defineRoutes(
+        [MainController, UsersController, RolesController, EmployeeController, AddressesController, AttendanceController, DepartmentsController],
+        application
+    );
 
     logging.info('--------------------------');
     logging.info('CHECKING ROUTE...');
