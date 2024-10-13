@@ -1,32 +1,46 @@
+import { Permission } from '../models/permissions';
 import { Role } from '../models/roles';
-import { User } from '../models/users';
+import permissions from '../common/permissions';
 
 export async function initializeDefaultData() {
     try {
-        let adminRole = await Role.findOne({ name: 'Administrator' });
+        // Check default Permissions
+        let existingPermissions = await Permission.find();
+        const resourceNames = Object.keys(permissions);
+        logging.log('Checking for Permissions initialization...');
+        const methods: string[] = [];
+        for (const key in permissions) {
+            if (permissions.hasOwnProperty(key)) {
+                const permissionSet = permissions[key];
+                methods.push(permissionSet.create, permissionSet.read, permissionSet.update, permissionSet.delete);
+            }
+        }
+        logging.warning('Methods:', methods);
+        if (methods.length !== existingPermissions.length) {
+            logging.log('Permissions not found. Initializing...');
+
+            for (const permissionName of methods) {
+                const permission = new Permission({
+                    name: permissionName,
+                    description: permissions[permissionName]
+                });
+                await permission.save();
+            }
+            logging.info('Permissions initialized.');
+        } else {
+            logging.info('Skipping Permission Initialization');
+        }
+
+        let adminRole = await Role.findOne({ name: 'admin' });
         logging.log('Checking for Administrator initialization...');
         if (!adminRole) {
             adminRole = new Role({
-                name: 'Administrator',
-                description: 'Admin role with all permissions'
+                name: 'admin',
+                description: 'Admin with all permissions',
+                permissions: existingPermissions.map((permission) => permission._id)
             });
             await adminRole.save();
             logging.info('Admin role created.');
-        } else {
-            logging.info('Skipping Initialization');
-        }
-
-        const adminUser = await User.findOne({ username: 'admin' });
-        logging.log('Checking for Admin initialization...');
-        if (!adminUser) {
-            const newAdminUser = new User({
-                email: 'admin@ninoko.de',
-                username: 'admin',
-                password: 'admin',
-                role_id: adminRole._id
-            });
-            await newAdminUser.save();
-            logging.info('Admin user created.');
         } else {
             logging.info('Skipping Initialization');
         }

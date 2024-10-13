@@ -17,6 +17,7 @@ import EmployeeController from './controllers/employees';
 import AddressesController from './controllers/addresses';
 import AttendanceController from './controllers/attendance';
 import DepartmentsController from './controllers/departments';
+import AuthController from './controllers/auth';
 
 export const application = express();
 export let httpServer: ReturnType<typeof http.createServer>;
@@ -55,7 +56,16 @@ export const Main = async () => {
     logging.info('DEFINE CONTROLLER ROUTING...');
     logging.info('--------------------------');
     defineRoutes(
-        [MainController, UsersController, RolesController, EmployeeController, AddressesController, AttendanceController, DepartmentsController],
+        [
+            MainController,
+            AuthController,
+            UsersController,
+            RolesController,
+            EmployeeController,
+            AddressesController,
+            AttendanceController,
+            DepartmentsController
+        ],
         application
     );
 
