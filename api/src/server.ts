@@ -18,6 +18,7 @@ import AddressesController from './controllers/addresses';
 import AttendanceController from './controllers/attendance';
 import DepartmentsController from './controllers/departments';
 import AuthController from './controllers/auth';
+import CompaniesController from './controllers/companies';
 
 export const application = express();
 export let httpServer: ReturnType<typeof http.createServer>;
@@ -64,7 +65,8 @@ export const Main = async () => {
             EmployeeController,
             AddressesController,
             AttendanceController,
-            DepartmentsController
+            DepartmentsController,
+            CompaniesController
         ],
         application
     );
