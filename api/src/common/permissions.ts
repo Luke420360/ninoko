@@ -19,7 +19,9 @@ const permissions: { [key: string]: PermissionSet } = {
 
     addresses: { create: 'createAddresses', read: 'readAddresses', update: 'updateAddresses', delete: 'deleteAddresses' },
 
-    attendance: { create: 'createAttendance', read: 'readAttendance', update: 'updateAttendance', delete: 'deleteAttendance' }
+    attendance: { create: 'createAttendance', read: 'readAttendance', update: 'updateAttendance', delete: 'deleteAttendance' },
+
+    companies: { create: 'createCompanies', read: 'readCompanies', update: 'updateCompanies', delete: 'deleteCompanies' }
 };
 
 export default permissions;

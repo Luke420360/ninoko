@@ -41,4 +41,4 @@ const companySchema = new Schema({
     }
 );
 
-export const Company = mongoose.model('Department', companySchema);
+export const Company = mongoose.model('Company', companySchema);
